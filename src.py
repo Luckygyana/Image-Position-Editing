@@ -8,6 +8,7 @@ import argparse
 from PIL import Image
 from omegaconf import OmegaConf
 from pathlib import Path
+import cv2
 
 os.environ['OMP_NUM_THREADS'] = '1'
 os.environ['OPENBLAS_NUM_THREADS'] = '1'
@@ -101,12 +102,12 @@ class ImageEditor:
         config_filename = "GroundingDINO_SwinB.cfg.py"
         self.groundingdino = load_model_hf(repo_id, checkpoint_filename, config_filename)
 
-    def _initialize_lama(self, lama_config, lama_ckpt)
-        predict_config = OmegaConf.load(lama_config)
-        predict_config.model.path = lama_ckpt
+    def _initialize_lama(self, lama_config, lama_ckpt):
+        self.predict_config = OmegaConf.load(lama_config)
+        self.predict_config.model.path = lama_ckpt
 
         train_config_path = os.path.join(
-            predict_config.model.path, 'config.yaml')
+            self.predict_config.model.path, 'config.yaml')
 
         with open(train_config_path, 'r') as f:
             train_config = OmegaConf.create(yaml.safe_load(f))
@@ -115,13 +116,13 @@ class ImageEditor:
         train_config.visualizer.kind = 'noop'
 
         checkpoint_path = os.path.join(
-            predict_config.model.path, 'models',
-            predict_config.model.checkpoint
+            self.predict_config.model.path, 'models',
+            self.predict_config.model.checkpoint
         )
         self.lama_model = load_checkpoint(
             train_config, checkpoint_path, strict=False, map_location='cpu')
         self.lama_model.freeze()
-        if not predict_config.get('refine', False):
+        if not self.predict_config.get('refine', False):
             self.lama_model.to(self.device)
 
     def predict_dino(self, image_pil, text_prompt, box_threshold, text_threshold):
@@ -160,7 +161,7 @@ class ImageEditor:
         return masks, boxes, phrases, logits
 
     @torch.no_grad()
-    def inpaint_img_with_lama(img, mask, mod=8):
+    def inpaint_img_with_lama(self, img, mask, mod=8):
         assert len(mask.shape) == 2
         if np.max(mask) == 1:
             mask = mask * 255
@@ -177,7 +178,7 @@ class ImageEditor:
         batch['mask'] = (batch['mask'] > 0) * 1
 
         batch = self.lama_model(batch)
-        cur_res = batch[predict_config.out_key][0].permute(1, 2, 0)
+        cur_res = batch[self.predict_config.out_key][0].permute(1, 2, 0)
         cur_res = cur_res.detach().cpu().numpy()
 
         if unpad_to_size is not None:
@@ -187,7 +188,7 @@ class ImageEditor:
         cur_res = np.clip(cur_res * 255, 0, 255).astype('uint8')
         return cur_res
 
-    def dilate_mask(mask, dilate_factor=15):
+    def dilate_mask(self, mask, dilate_factor=15):
         mask = mask.astype(np.uint8)
         mask = cv2.dilate(
             mask,
@@ -196,54 +197,55 @@ class ImageEditor:
         )
         return mask
 
-    def segment_anything(image_path, text_prompt, output_image_path):
+    def segment_anything(self, image_path, text_prompt, output_image_path):
         image = Image.open(image_path).convert("RGB")
         masks, _, _, _ = self.predict(image, text_prompt)
         masks = [mask.squeeze().cpu().numpy().astype(np.uint8) * 255 for mask in masks]
         # boxes = [box.squeeze().cpu().numpy() for box in boxes]
 
-        
-        binary_mask = (mask == 255).astype(np.uint8)
-        # Create a red mask image
-        red_mask = np.zeros_like(np.array(image))
-        red_mask[..., 0] = 255  # Set red channel to 255
-        red_mask[..., 1] = 0    # Set green channel to 0
-        red_mask[..., 2] = 0    # Set blue channel to 0
+        masked_array = np.array(image)
 
-        # Apply the red mask to the original image where the mask is 1
-        original_array = np.array(image)
-        combined_image = np.where(binary_mask[..., None], red_mask, original_array)
+        for mask in masks:
+          binary_mask = (mask == 255).astype(np.uint8)
+          # Create a red mask image
+          red_mask = np.zeros_like(np.array(image))
+          red_mask[..., 0] = 255  # Set red channel to 255
+          red_mask[..., 1] = 0    # Set green channel to 0
+          red_mask[..., 2] = 0    # Set blue channel to 0
 
-        Image.fromarray(combined_image).save(output_image_path)
+          # Apply the red mask to the original image where the mask is 1
+          masked_array = np.where(binary_mask[..., None], red_mask, masked_array)
 
-    def remove_anything(image_path, text_prompt, output_image_path):
+        Image.fromarray(masked_array).save(output_image_path)
+
+    def remove_anything(self, image_path, text_prompt, output_image_path):
         image = Image.open(image_path).convert("RGB")
         masks, _, _, _ = self.predict(image, text_prompt)
         masks = [mask.squeeze().cpu().numpy().astype(np.uint8) * 255 for mask in masks]
         # boxes = [box.squeeze().cpu().numpy() for box in boxes]
 
-        masks = [dilate_mask(mask, self.mask_dilate_factor) for mask in masks]
+        masks = [self.dilate_mask(mask, self.mask_dilate_factor) for mask in masks]
 
         img_inpainted = np.array(image)
         for mask in masks:
-            img_inpainted = inpaint_img_with_lama(img_inpainted, mask)
+            img_inpainted = self.inpaint_img_with_lama(img_inpainted, mask)
         
         Image.fromarray(img_inpainted.astype(np.uint8)).save(output_image_path)
 
-    def change_location_anything(image_path, text_prompt, shift_x, shift_y, output_image_path):
+    def change_location_anything(self, image_path, text_prompt, shift_x, shift_y, output_image_path):
         image = Image.open(image_path).convert("RGB")
         masks, boxes, _, _ = self.predict(image, text_prompt)
         masks = [mask.squeeze().cpu().numpy().astype(np.uint8) * 255 for mask in masks]
         boxes = [box.squeeze().cpu().numpy() for box in boxes]
 
-        dilated_masks = [dilate_mask(mask, self.mask_dilate_factor) for mask in masks]
+        dilated_masks = [self.dilate_mask(mask, self.mask_dilate_factor) for mask in masks]
 
         img_inpainted = np.array(image)
         for mask in dilated_masks:
-            img_inpainted = inpaint_img_with_lama(img_inpainted, mask)
+            img_inpainted = self.inpaint_img_with_lama(img_inpainted, mask)
         
         image_np = np.array(image)
-        for mask, box in zip(dilated_masks, boxes):
+        for mask, box in zip(masks, boxes):
             object_img = cv2.bitwise_and(image_np, image_np, mask=mask)
             x, y, w, h = int(box[0]), int(box[1]), int(box[2] - box[0]) , int(box[3] - box[1])
 
@@ -263,6 +265,8 @@ class ImageEditor:
                 new_x = image.size[1] - w
             if new_y + h > image.size[0]:
                 new_y = image.shape[0] - h
+
+            moved_image[new_y:new_y+h, new_x:new_x+w] = object_img[y:y+h, x:x+w]
 
             mask_indices = np.where(moved_image > 0)
 

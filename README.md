@@ -100,19 +100,19 @@ python script.py --image wall_hanging.jpg --class "wall hanging" --output masked
 
 | Input Image | Output Image |
 |:------------:|:------------:|
-| ![Input Image](./examples/wall_hanging.jpg) | ![Output Image](./examples/wall_hanging.jpg) |
+| ![Input Image](./examples/wall_hanging.jpg) | ![Output Image](./examples/masked_wall_hanging.jpg) |
 
 ### Example 2: Change Object Position
 
 ```sh
-python script.py --image wall_hanging.jpg --class "wall hanging" --output moved_wall_hanging".jpg task2 --x 50 --y 30
+python script.py --image wall_hanging.jpg --class "wall hanging" --output moved_wall_hanging".jpg task2 --x 500 --y 100
 ```
 
 **Input and Output:**
 
 | Input Image | Output Image |
 |:------------:|:------------:|
-| ![Input Image](./examples/wall_hanging.jpg) | ![Output Image](./examples/wall_hanging.jpg) |
+| ![Input Image](./examples/wall_hanging.jpg) | ![Output Image](./examples/moved_wall_hanging.jpg) |
 
 ### Example 3: Remove Object
 
@@ -124,7 +124,7 @@ python script.py --image ../example/wall_hanging.jpg --class "wall hanging" --ou
 
 | Input Image | Output Image |
 |:------------:|:------------:|
-| ![Input Image](./examples/wall_hanging.jpg) | ![Output Image](./examples/wall_hanging.jpg) |
+| ![Input Image](./examples/wall_hanging.jpg) | ![Output Image](./examples/no_wall_hanging.jpg) |
 
 ## Directory Structure
 
