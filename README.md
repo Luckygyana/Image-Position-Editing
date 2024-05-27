@@ -129,16 +129,16 @@ python script.py --image ../example/wall_hanging.jpg --class "wall hanging" --ou
 ## Directory Structure
 
 ```
-ImageEditor/
+Image-Position-Editing/
 ├── lama/
 │   ├── configs/
 │   │   └── prediction/
 │   │       └── default.yaml
 │   └── pretrained-models/
 │       └── big-lama
-├── src/
-│   └── ImageEditor.py
-├── script.py
+|   └── requirements.txt
+├── src.py
+├── run.py
 ├── requirements.txt
 └── README.md
 ```
