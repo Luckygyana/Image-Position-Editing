@@ -147,6 +147,17 @@ Image-Position-Editing/
 
 The `lama` directory contains the necessary configuration files and pre-trained models for performing the image editing tasks. The default configuration file for predictions is located at `lama/configs/prediction/default.yaml`.
 
+## Acknowledgments
+
+* Segmentation code and models if form [CSAILVision](https://github.com/CSAILVision/semantic-segmentation-pytorch).
+* Lama Model from [LaMa](https://github.com/advimman/lama)
+* LPIPS metric is from [richzhang](https://github.com/richzhang/PerceptualSimilarity)
+* SSIM is from [Po-Hsun-Su](https://github.com/Po-Hsun-Su/pytorch-ssim)
+* FID is from [mseitzer](https://github.com/mseitzer/pytorch-fid)
+* [Inpaint-Anything](https://github.com/geekyutao/Inpaint-Anything)
+* [GroundingDINO](https://github.com/IDEA-Research/GroundingDINO)
+* [Segment-Anything](https://github.com/facebookresearch/segment-anything)
+* [Lightning AI](https://github.com/Lightning-AI/lightning)
 
 ---
 
