@@ -18,12 +18,12 @@
 
 ## Introduction
 
-`ImageEditor` is a versatile image processing tool that allows users to perform various tasks on images, such as generating red masks, changing the position of segmented objects, and removing objects. This tool leverages advanced segmentation models to achieve these tasks efficiently.
+`Image-Position-Editing` is a versatile image processing tool that allows users to perform various tasks on images, such as generating segmented masks, changing the position of segmented objects, and removing objects. This tool leverages advanced segmentation models to achieve these tasks efficiently.
 
 ## Requirements
 
 - Python 3.6+
-- `src` package including `ImageEditor`
+- `src` package including `Image-Position-Editing`
 - Additional dependencies as specified in `requirements.txt`
 
 ## Installation
@@ -37,11 +37,14 @@
 2. Install the required dependencies:
     ```sh
     pip install -r requirements.txt
+    python -m pip install -r lama/requirements.txt 
     ```
+
+3. Download the model checkpoints provided in [big-lama](https://disk.yandex.ru/d/ouP6l8VJ0HpMZg), and put them into `./pretrained_models`. For simplicity, you can also go [here](https://drive.google.com/drive/folders/1ST0aRbDRZGli0r7OVVOQvXtadMCuWXg?usp=sharing), directly download [pretrained_models](https://drive.google.com/drive/folders/1wpY-upCo4GIW4wVPnlMh_ym779lLIG2A?usp=sharing), put the directory into `./` and get `./pretrained_models`.
 
 ## Usage
 
-The `ImageEditor` script can be used from the command line to perform various image processing tasks. Below are the common arguments and task-specific arguments.
+The `Image-Position-Editing` script can be used from the command line to perform various image processing tasks. Below are the common arguments and task-specific arguments.
 
 ### Common Arguments
 
@@ -51,9 +54,9 @@ The `ImageEditor` script can be used from the command line to perform various im
 
 ### Tasks
 
-#### Task 1: Generate Red Mask on the Object
+#### Task 1: Generate Segmented Mask on the Object
 
-Generates a red mask over the specified object in the image.
+Generates a segmented mask over the specified object in the image.
 
 ```sh
 python script.py --image path/to/image.jpg --class "object_class" --output path/to/output.jpg task1
@@ -119,14 +122,7 @@ ImageEditor/
 
 The `lama` directory contains the necessary configuration files and pre-trained models for performing the image editing tasks. The default configuration file for predictions is located at `lama/configs/prediction/default.yaml`.
 
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request with your changes. Ensure that your code adheres to the existing style and include relevant tests.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
 ---
 
-For any further questions or support, please open an issue on the [GitHub repository](https://github.com/yourusername/ImageEditor).
+For any further questions or support, please open an issue on the [GitHub repository](https://github.com/luckygyana/Image-Position-Editing).
