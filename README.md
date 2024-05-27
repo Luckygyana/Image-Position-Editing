@@ -13,8 +13,6 @@
 - [Examples](#examples)
 - [Directory Structure](#directory-structure)
 - [Configuration Files](#configuration-files)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
@@ -83,11 +81,19 @@ python script.py --image path/to/image.jpg --class "object_class" --output path/
 
 ## Examples
 
-### Example 1: Generate Red Mask
+### Example 1: Generate Segmented Mask
 
 ```sh
 python script.py --image sample.jpg --class "cat" --output masked_cat.jpg task1
 ```
+
+**Input:**
+
+![Input Image](./examples/wall%20hanging.jpg)
+
+**Output:**
+
+![Output Image](./examples/wall%20hanging.jpg)
 
 ### Example 2: Change Object Position
 
@@ -95,11 +101,27 @@ python script.py --image sample.jpg --class "cat" --output masked_cat.jpg task1
 python script.py --image sample.jpg --class "cat" --output moved_cat.jpg task2 --x 50 --y 30
 ```
 
+**Input:**
+
+![Input Image](./examples/wall%20hanging.jpg)
+
+**Output:**
+
+![Output Image](./examples/wall%20hanging.jpg)
+
 ### Example 3: Remove Object
 
 ```sh
 python script.py --image sample.jpg --class "cat" --output no_cat.jpg task3
 ```
+
+**Input:**
+
+![Input Image](./examples/wall%20hanging.jpg)
+
+**Output:**
+
+![Output Image](./examples/wall%20hanging.jpg)
 
 ## Directory Structure
 
