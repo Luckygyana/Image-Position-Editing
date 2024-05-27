@@ -1,12 +1,5 @@
 # Image-Position-Editing
 
-<p align="center">
-  <a href="https://colab.research.google.com/drive/1G1cSXiL2Jiwo0DT-vO5f4H_bEiNqbcoz?usp=sharing">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg"/>
-  </a>
-      <br>
-   Try out in Google Colab
-</p>
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -25,6 +18,14 @@
 ## Introduction
 
 `Image-Position-Editing` is a versatile image processing tool that allows users to perform various tasks on images, such as generating segmented masks, changing the position of segmented objects, and removing objects. This tool leverages advanced segmentation models to achieve these tasks efficiently.
+
+<p align="center">
+  <a href="https://colab.research.google.com/drive/1G1cSXiL2Jiwo0DT-vO5f4H_bEiNqbcoz?usp=sharing">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg"/>
+  </a>
+      <br>
+   Try out in Google Colab
+</p>
 
 ## Requirements
 

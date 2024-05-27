@@ -1,5 +1,6 @@
 from src import ImageEditor
 import argparse
+from pathlib import Path
 
 lama_config = str(Path(__file__).resolve().parent / "lama/configs/prediction/default.yaml")
 lama_ckpt = str(Path(__file__).resolve().parent / "lama/pretrained-models/big-lama")
