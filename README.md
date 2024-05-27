@@ -1,5 +1,13 @@
 # Image-Position-Editing
 
+<p align="center">
+  <a href="https://colab.research.google.com/drive/1G1cSXiL2Jiwo0DT-vO5f4H_bEiNqbcoz?usp=sharing">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg"/>
+  </a>
+      <br>
+   Try out in Google Colab
+</p>
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Requirements](#requirements)
@@ -28,7 +36,7 @@
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/ImageEditor.git
+    git clone https://github.com/luckygyana/Image-Position-Editing.git
     cd ImageEditor
     ```
 
