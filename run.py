@@ -15,7 +15,7 @@ def main():
     # Task-specific arguments
     subparsers = parser.add_subparsers(dest='task', help='Task to perform')
 
-    # Task 1: Generate red mask
+    # Task 1: Generate red mask of the segmented object
     parser_task1 = subparsers.add_parser('task1', help='Generate red mask on the object')
 
     # Task 2: Change position of the segmented object
@@ -23,6 +23,7 @@ def main():
     parser_task2.add_argument('--x', type=int, required=True, help='Number of pixels to shift in the x direction')
     parser_task2.add_argument('--y', type=int, required=True, help='Number of pixels to shift in the y direction')
 
+    # Task 2: Remove the object
     parser_task3 = subparsers.add_parser('task3', help='Remove the object')
 
     args = parser.parse_args()
