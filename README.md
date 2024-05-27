@@ -84,44 +84,38 @@ python script.py --image path/to/image.jpg --class "object_class" --output path/
 ### Example 1: Generate Segmented Mask
 
 ```sh
-python script.py --image sample.jpg --class "cat" --output masked_cat.jpg task1
+python script.py --image wall_hanging.jpg --class "wall hanging" --output masked_wall_hanging.jpg task1
 ```
 
-**Input:**
+**Input and Output:**
 
-![Input Image](./examples/wall%20hanging.jpg)
-
-**Output:**
-
-![Output Image](./examples/wall%20hanging.jpg)
+| Input Image | Output Image |
+|:------------:|:------------:|
+| ![Input Image](./examples/wall_hanging.jpg) | ![Output Image](./examples/wall_hanging.jpg) |
 
 ### Example 2: Change Object Position
 
 ```sh
-python script.py --image sample.jpg --class "cat" --output moved_cat.jpg task2 --x 50 --y 30
+python script.py --image wall_hanging.jpg --class "wall hanging" --output moved_wall_hanging".jpg task2 --x 50 --y 30
 ```
 
-**Input:**
+**Input and Output:**
 
-![Input Image](./examples/wall%20hanging.jpg)
-
-**Output:**
-
-![Output Image](./examples/wall%20hanging.jpg)
+| Input Image | Output Image |
+|:------------:|:------------:|
+| ![Input Image](./examples/wall_hanging.jpg) | ![Output Image](./examples/wall_hanging.jpg) |
 
 ### Example 3: Remove Object
 
 ```sh
-python script.py --image sample.jpg --class "cat" --output no_cat.jpg task3
+python script.py --image ../example/wall_hanging.jpg --class "wall hanging" --output no_wall_hanging.jpg task3
 ```
 
-**Input:**
+**Input and Output:**
 
-![Input Image](./examples/wall%20hanging.jpg)
-
-**Output:**
-
-![Output Image](./examples/wall%20hanging.jpg)
+| Input Image | Output Image |
+|:------------:|:------------:|
+| ![Input Image](./examples/wall_hanging.jpg) | ![Output Image](./examples/wall_hanging.jpg) |
 
 ## Directory Structure
 
